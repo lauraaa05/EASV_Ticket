@@ -7,6 +7,12 @@ public class User {
     private String Password;
     private String Role;
 
+    public User(String Username, String Password, String Role) {
+        this.Username = Username;
+        this.Password = Password;
+        this.Role = Role;
+    }
+
     public int getUser_Id() {
         return User_Id;
     }
