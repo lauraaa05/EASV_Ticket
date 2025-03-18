@@ -1,5 +1,8 @@
 package dk.easv;
 
+import DAL.UserDAO;
+import be.User;
+import bll.UserManagement;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +17,8 @@ public class App extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
+
+    UserDAO userDAO = new UserDAO();
 
     public static void main(String[] args) {
         launch(args);

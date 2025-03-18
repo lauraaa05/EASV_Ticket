@@ -1,9 +1,19 @@
 package Controllers;
 
+import DAL.UserDAO;
+import be.User;
+import bll.UserManagement;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.util.List;
+
 public class MainController {
+
+    UserManagement um = new UserManagement();
+    UserDAO userDAO = new UserDAO();
+
 
     @FXML
     private TextField usernameField;
@@ -43,5 +53,15 @@ public class MainController {
         } else {
             System.out.println("Invalid username or password.");
         }
+    }
+
+
+    public void actionTestBtn(ActionEvent actionEvent) {
+
+        List<User> listOfUsers = userDAO.getAllUsers();
+        for(User user : listOfUsers) {
+            System.out.println(user);
+        }
+
     }
 }
