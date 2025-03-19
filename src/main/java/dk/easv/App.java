@@ -17,7 +17,7 @@ public class App extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
-
+    
     UserDAO userDAO = new UserDAO();
 
     public static void main(String[] args) {
