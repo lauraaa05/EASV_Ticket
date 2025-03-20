@@ -13,6 +13,10 @@ public class User {
         this.Role = Role;
     }
 
+    public User(String Username) {
+        this.Username = Username;
+    }
+
     public int getUser_Id() {
         return User_Id;
     }
@@ -42,4 +46,8 @@ public class User {
         this.Role = Role;
     }
 
+    @Override
+    public String toString() {
+        return Username;
+    }
 }
