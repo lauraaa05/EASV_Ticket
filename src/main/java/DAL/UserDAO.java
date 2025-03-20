@@ -70,7 +70,7 @@ public class UserDAO {
         return userList;
     }
 
-    //Delete a user
+    
     public void deleteUser(String username) {
         String sql = "DELETE FROM LoginInfo WHERE Username = ?";
 
@@ -86,4 +86,22 @@ public class UserDAO {
         }
     }
 
+    //list all the event coordinators
+    public List<User> getAllEventCoordinators() {
+        List<User> userList = new ArrayList<>();
+        String sql = "SELECT * FROM LoginInfo WHERE Role = 'Event Coordinator'";
+
+        try (Connection conn = dbAccess.DBConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                userList.add(new User(rs.getString("Username"), rs.getString("Password"),rs.getString("Role")));
+            }
+        }   catch (SQLException e) {
+            e.printStackTrace();
+        }
+            return userList;
+
+    }
 }
