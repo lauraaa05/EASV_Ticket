@@ -1,10 +1,14 @@
 package controllers;
 
+import be.Event;
+import bll.EventManagement;
 import bll.LoginCheck;
 import dal.EventDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.util.List;
 
 public class MainController {
 
@@ -76,7 +80,13 @@ public class MainController {
 //        eventDAO.assignCoordinatorToEvent(4, 20);
 //        System.out.println("Method assignCoordinatorToEvent executed");
         //works fine
+
         EventDAO eventDAO = new EventDAO();
-        eventDAO.removeCoordinatorFromEvent(5,7);
+        EventManagement eventManagement = new EventManagement();
+//        eventDAO.deleteEvent("OMG!!");
+        List<Event> events = eventManagement.getAllEvents();
+//        for (Event event : events) {
+//            System.out.println(event.getEventName() + " at " + event.getLocation());
+//        }
     }
 }

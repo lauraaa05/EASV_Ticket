@@ -3,6 +3,8 @@ package bll;
 import be.User;
 import dal.UserDAO;
 
+import java.util.List;
+
 public class UserManagement {
 
     private final UserDAO userDAO = new UserDAO();
@@ -23,5 +25,13 @@ public class UserManagement {
 
     public void deleteUser(String username) {
         userDAO.deleteUser(username);
+    }
+
+    public List<User> getAllUsers() {
+        return userDAO.getAllUsers();
+    }
+
+    public List<User> getAllEventCoordinators() {
+        return userDAO.getAllEventCoordinators();
     }
 }

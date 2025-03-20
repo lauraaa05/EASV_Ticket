@@ -3,6 +3,8 @@ package bll;
 import dal.EventDAO;
 import be.Event;
 
+import java.util.List;
+
 public class EventManagement {
 
     private final EventDAO eventDAO = new EventDAO();
@@ -16,4 +18,21 @@ public class EventManagement {
     public void deleteEvent(String eventName) {
         eventDAO.deleteEvent(eventName);
     }
+
+    public void assignCoordinatorToEvent(int eventId, int userId) {
+        eventDAO.assignCoordinatorToEvent(eventId, userId);
+    }
+
+    public void removeCoordinatorFromEvent(int eventId, int userId) {
+        eventDAO.removeCoordinatorFromEvent(eventId, userId);
+    }
+
+    public void getAllChanges() {
+        eventDAO.getAllChanges();
+    }
+
+    public List<Event> getAllEvents() {
+        return eventDAO.getAllEvents();
+    }
+
 }

@@ -2,9 +2,9 @@ package dal;
 
 import be.Event;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EventDAO {
 
@@ -41,11 +41,46 @@ public class EventDAO {
             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1,eventName);
-            stmt.executeUpdate();
-            System.out.println("Event deleted successfully");
+            int rowsAffected = stmt.executeUpdate();
+
+
+            if (rowsAffected > 0) {
+                logChange("Event", "DELETE",null, null);
+                System.out.println("Event deleted successfully :)");
+            } else {
+                System.out.println("No event found with that name.");
+            }
         }   catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Event> getAllEvents() {
+        List<Event> eventList = new ArrayList<>();
+        String sql = "SELECT * FROM Event";
+
+        try (Connection conn = dbAccess.DBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Event event = new Event(
+                rs.getString("Location"),
+                rs.getString("Date"),
+                rs.getString("StartTime"),
+                rs.getString("EndTime"),
+                rs.getString("Note"),
+                rs.getInt("Price"),
+                rs.getString("Location_Guidance"),
+                rs.getString("EventName")
+                );
+                eventList.add(event);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return eventList;
     }
 
     public void assignCoordinatorToEvent(int eventId, int userId) {
@@ -72,8 +107,9 @@ public class EventDAO {
 
             stmt.setInt(1, eventId);
             stmt.setInt(2, userId);
-
             stmt.executeUpdate();
+
+            logChange("EventUser", "INSERT", eventId, userId);
             System.out.println("Assigned coordinator to event successfully");
 
         } catch (SQLException e) {
@@ -98,6 +134,7 @@ public class EventDAO {
             int rowsAffected = stmt.executeUpdate();
 
             if (rowsAffected > 0) {
+                logChange("EventUser", "DELETE", eventId, userId);
                 System.out.println("Successfully removed UserId " + userId + " from EventId " + eventId);
             } else {
                 System.out.println("Failed to remove UserId " + userId + " from EventId " + eventId);
@@ -156,4 +193,57 @@ public class EventDAO {
     }
     //--------------------------------------------------------------------------------------------------------
     // DON'T TOUCH THESE -_-
+
+
+    //This method created to follow change on events. This is for ChangeLog table on the database
+    //Please don't touch this :)
+    private void logChange(String tableName, String actionType, Integer eventId, Integer userId) {
+        String sql = "INSERT INTO ChangeLog (TableName, ActionType, EventId, UserId) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = dbAccess.DBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, tableName);
+            stmt.setString(2, actionType);
+            if (eventId != null) {
+                stmt.setInt(3, eventId);
+            } else {
+                stmt.setNull(3, java.sql.Types.INTEGER);
+            }
+            if (userId != null) {
+                stmt.setInt(4, userId);
+            } else {
+                stmt.setNull(4,java.sql.Types.INTEGER);
+            }
+
+            stmt.executeUpdate();
+            System.out.println("Changed logged: " + actionType + " on " + tableName);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    //to view all the changes have been done
+    public void getAllChanges() {
+        String sql = "SELECT * FROM ChangeLog ORDER BY ChangeTimestamp DESC";
+
+        try (Connection conn = dbAccess.DBConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()) {
+
+            System.out.println("=== Change History ===");
+            while (rs.next()) {
+                int logId = rs.getInt("LogId");
+                String tableName = rs.getString("TableName");
+                String actionType = rs.getString("ActionType");
+                int eventId = rs.getInt("EventId");
+                int userId = rs.getInt("UserId");
+                Timestamp timestamp = rs.getTimestamp("ChangeTimestamp");
+
+                System.out.println(logId + " | " + tableName + " | " + actionType + " | EventId: " + eventId + " | UserId: " + userId + " | " + timestamp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
