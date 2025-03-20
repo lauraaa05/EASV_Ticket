@@ -2,6 +2,7 @@ package Controllers;
 
 import DAL.UserDAO;
 import be.User;
+import bll.EventManagement;
 import bll.UserManagement;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,10 +59,19 @@ public class MainController {
 
     public void actionTestBtn(ActionEvent actionEvent) {
 
-        List<User> listOfUsers = userDAO.getAllUsers();
-        for(User user : listOfUsers) {
-            System.out.println(user);
-        }
+//        List<User> listOfUsers = userDAO.getAllUsers();
+//        for(User user : listOfUsers) {
+//            System.out.println(user);
+//        }
+
+//        List<User> listEventCords = userDAO.getAllEventCoordinators();
+//        for (User user : listEventCords) {
+//            System.out.println(user);
+//        }
+
+          EventManagement eventMan = new EventManagement();
+//        eventMan.createEvent("Dumb City","Yesterday","2 days ago","8 days later", "Come to event plz <3", 5000, "follow me", "Delete Testing");
+          eventMan.deleteEvent("Delete Testing");
 
     }
 }
