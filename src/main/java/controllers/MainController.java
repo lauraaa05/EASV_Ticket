@@ -21,6 +21,9 @@ public class MainController {
     @FXML
     private Button loginButton;
 
+    @FXML
+    private Button testButton;
+
     private LoginCheck loginCheck = new LoginCheck();
 
     @FXML
@@ -35,6 +38,8 @@ public class MainController {
 
         // Login button action (basic example)
         loginButton.setOnAction(event -> handleLogin());
+
+        testButton.setOnAction(event -> System.out.println("Test worked"));
     }
 
     private void handleLogin() {

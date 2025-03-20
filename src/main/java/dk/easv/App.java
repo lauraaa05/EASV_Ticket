@@ -10,7 +10,7 @@ import javafx.scene.Parent;
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new  FXMLLoader(getClass().getResource("view/EASV Ticket - Login.fxml"));
+        FXMLLoader loader = new  FXMLLoader(getClass().getResource("/view/EASV Ticket - Login.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Login Screen");
         primaryStage.setScene(new Scene(root));
