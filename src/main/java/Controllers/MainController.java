@@ -1,19 +1,10 @@
 package Controllers;
 
-import DAL.UserDAO;
-import be.User;
-import bll.UserManagement;
-import javafx.event.ActionEvent;
+import bll.LoginCheck;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.util.List;
-
 public class MainController {
-
-    UserManagement um = new UserManagement();
-    UserDAO userDAO = new UserDAO();
-
 
     @FXML
     private TextField usernameField;
@@ -29,6 +20,8 @@ public class MainController {
 
     @FXML
     private Button loginButton;
+
+    private LoginCheck loginCheck = new LoginCheck();
 
     @FXML
     public void initialize() {
@@ -48,20 +41,24 @@ public class MainController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        if (username.equals("admin") && password.equals("1234")) {
-            System.out.println("Login successful!");
+        String result = loginCheck.checkLogin(username, password);
+
+        if (result.equals("Admin")) {
+            loadAdminScreen();
+            System.out.println("Login for Admin successful");
+        } else if (result.equals("Event Coordinator")) {
+            loadECScreen();
+            System.out.println("Login for Event Coordinator successful");
         } else {
-            System.out.println("Invalid username or password.");
+            System.out.println("Login not successful");
         }
     }
 
+    private void loadAdminScreen() {
+        System.out.println("Loading Admin Screen");
+    }
 
-    public void actionTestBtn(ActionEvent actionEvent) {
-
-        List<User> listOfUsers = userDAO.getAllUsers();
-        for(User user : listOfUsers) {
-            System.out.println(user);
-        }
-
+    private void loadECScreen() {
+        System.out.println("Loading Event Coordinator Screen");
     }
 }

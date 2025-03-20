@@ -2,6 +2,7 @@ package be;
 
 public class User {
 
+    private int User_Id;
     private String Username;
     private String Password;
     private String Role;
@@ -10,6 +11,10 @@ public class User {
         this.Username = Username;
         this.Password = Password;
         this.Role = Role;
+    }
+
+    public int getUser_Id() {
+        return User_Id;
     }
 
     public String getUsername() {
@@ -35,15 +40,6 @@ public class User {
 
     public void setRole(String Role) {
         this.Role = Role;
-    }
-
-    @Override
-    public String toString() {
-        return
-                " Username='" + Username + '\'' +
-                ", Password='" + Password + '\'' +
-                ", Role='" + Role + '\''
-                ;
     }
 
 }
