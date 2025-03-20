@@ -1,6 +1,8 @@
 package controllers;
 
 import bll.LoginCheck;
+import dal.EventDAO;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -39,7 +41,6 @@ public class MainController {
         // Login button action (basic example)
         loginButton.setOnAction(event -> handleLogin());
 
-        testButton.setOnAction(event -> System.out.println("Test worked"));
     }
 
     private void handleLogin() {
@@ -65,5 +66,17 @@ public class MainController {
 
     private void loadECScreen() {
         System.out.println("Loading Event Coordinator Screen");
+    }
+
+    public void actionTestBtn(ActionEvent actionEvent) {
+//        EventDAO eventDAO = new EventDAO();
+//        eventDAO.assignCoordinatorToEvent(3,8);
+//        System.out.println("Button clicked - attempting to assign coordinator");
+//        EventDAO eventDAO = new EventDAO();
+//        eventDAO.assignCoordinatorToEvent(4, 20);
+//        System.out.println("Method assignCoordinatorToEvent executed");
+        //works fine
+        EventDAO eventDAO = new EventDAO();
+        eventDAO.removeCoordinatorFromEvent(5,7);
     }
 }
