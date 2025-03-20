@@ -1,8 +1,6 @@
 package dk.easv;
 
-import DAL.UserDAO;
-import be.User;
-import BLL.UserManagement;
+import dal.UserDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

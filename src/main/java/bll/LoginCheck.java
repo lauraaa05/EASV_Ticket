@@ -1,6 +1,6 @@
 package bll;
 
-import DAL.LoginDAO;
+import dal.LoginDAO;
 import be.User;
 
 public class LoginCheck {

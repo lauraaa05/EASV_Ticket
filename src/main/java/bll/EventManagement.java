@@ -1,9 +1,7 @@
 package bll;
 
-import DAL.EventDAO;
+import dal.EventDAO;
 import be.Event;
-
-import java.sql.Date;
 
 public class EventManagement {
 
