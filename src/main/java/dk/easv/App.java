@@ -2,7 +2,7 @@ package dk.easv;
 
 import DAL.UserDAO;
 import be.User;
-import bll.UserManagement;
+import BLL.UserManagement;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

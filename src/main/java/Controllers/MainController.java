@@ -1,6 +1,6 @@
 package Controllers;
 
-import bll.LoginCheck;
+import BLL.LoginCheck;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
