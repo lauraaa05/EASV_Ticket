@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventMainController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <ListView fx:id="listViewEventsEventC" layoutX="66.0" layoutY="102.0" prefHeight="321.0" prefWidth="417.0" />
+            <ListView fx:id="eventsListView" layoutX="66.0" layoutY="103.0" prefHeight="321.0" prefWidth="417.0" />
             <Label layoutX="66.0" layoutY="85.0" text="Events" />
             <Button fx:id="btnEventCAdd" layoutX="344.0" layoutY="426.0" mnemonicParsing="false" text="Add" />
             <Button fx:id="btnEventCDelete" layoutX="432.0" layoutY="426.0" mnemonicParsing="false" text="Delete" />
