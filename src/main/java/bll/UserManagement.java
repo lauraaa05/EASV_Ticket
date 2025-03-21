@@ -34,4 +34,6 @@ public class UserManagement {
     public List<User> getAllEventCoordinators() {
         return userDAO.getAllEventCoordinators();
     }
+
+
 }

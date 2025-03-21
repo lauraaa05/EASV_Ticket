@@ -8,12 +8,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:controller="controllers.AdminMainController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminMainController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <ListView fx:id="listViewEventsAdmin" layoutX="44.0" layoutY="113.0" prefHeight="321.0" prefWidth="276.0" />
-            <ListView fx:id="listViewEventCAdmin" layoutX="378.0" layoutY="113.0" prefHeight="321.0" prefWidth="235.0" />
+            <ListView fx:id="eventsListView" layoutX="44.0" layoutY="113.0" prefHeight="321.0" prefWidth="276.0" />
+            <ListView fx:id="eventCordListView" layoutX="378.0" layoutY="113.0" prefHeight="321.0" prefWidth="235.0" />
             <Label layoutX="49.0" layoutY="95.0" text="Events" />
             <Label layoutX="511.0" layoutY="95.0" text="Event Coordinators" />
             <Button fx:id="btnAdminAdd" layoutX="47.0" layoutY="439.0" mnemonicParsing="false" text="Add" />
