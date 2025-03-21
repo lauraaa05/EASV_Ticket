@@ -18,16 +18,16 @@ public class AdminMainController {
 
     @FXML
     private void initialize() {
-        loadEventCoordinators();
+
     }
 
     // we better have realistic event coordinators' names before presantation and we should be able to
     //open the admin page after login as a admin
-    private void loadEventCoordinators() {
-        List<User> coordinators = userManagement.getAllEventCoordinators();
-        ObservableList<User> observableList = FXCollections.observableArrayList(coordinators);
-        eventCoordsListView.setItems(observableList);
-    }
+//    private void loadEventCoordinators() {
+//        List<User> coordinators = userManagement.getAllEventCoordinators();
+//        ObservableList<User> observableList = FXCollections.observableArrayList(coordinators);
+//        eventCoordsListView.setItems(observableList);
+//    }
 
 
 }
