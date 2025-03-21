@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EvetMainController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -24,6 +24,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
+            <Button fx:id="logoutButtonEC" layoutX="512.0" layoutY="14.0" mnemonicParsing="false" text="Logout" />
          </children>
       </AnchorPane>
    </children>

@@ -37,7 +37,6 @@ public class LoginController {
 
         // Login button action (basic example)
         loginButton.setOnAction(event -> handleLogin());
-
     }
 
     @FXML
