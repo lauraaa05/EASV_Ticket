@@ -36,7 +36,7 @@ public class LoginController {
         visiblePasswordField.textProperty().bindBidirectional(passwordField.textProperty());
 
         // Login button action (basic example)
-        loginButton.setOnAction(event -> handleLogin());
+        loginButton.setOnAction(_ -> handleLogin());
 
     }
 
