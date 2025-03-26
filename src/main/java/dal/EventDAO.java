@@ -28,6 +28,44 @@ public class EventDAO {
             stmt.executeUpdate();
             System.out.println("Event added successfully");
 
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int generatedId = generatedKeys.getInt(1);
+                    event.setEventId(generatedId);  // Set the ID in the object
+                    System.out.println("Generated EventId: " + generatedId);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateEvent(int eventId, Event updatedEvent) {
+        String sql = "UPDATE Event SET Location = ?, Date = ?, StartTime = ?, EndTime = ?, Note = ?, Price = ?, Location_Guidance = ?, EventName = ? WHERE EventId = ?";
+
+        try (Connection conn = dbAccess.DBConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, updatedEvent.getLocation());
+            stmt.setString(2, updatedEvent.getDate());
+            stmt.setString(3, updatedEvent.getStartTime());
+            stmt.setString(4, updatedEvent.getEndTime());
+            stmt.setString(5, updatedEvent.getNote());
+            stmt.setInt(6, updatedEvent.getPrice());
+            stmt.setString(7, updatedEvent.getLocation_Guidance());
+            stmt.setString(8, updatedEvent.getEventName());
+            stmt.setInt(9, eventId);
+
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                logChange("Event", "UPDATE", eventId, null);
+                System.out.println("Event updated successfully");
+            } else {
+                System.out.println("No event found with ID: " + eventId);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,6 +102,7 @@ public class EventDAO {
             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Event event = new Event(
+                        rs.getInt("EventId"),
                 rs.getString("Location"),
                 rs.getString("Date"),
                 rs.getString("StartTime"),

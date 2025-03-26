@@ -7,18 +7,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class TestAdminPageApp extends Application {
-
+public class TestEventCPageApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new  FXMLLoader(getClass().getResource("/view/AdminMain.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/EventCMain.fxml"));
         Parent root = loader.load();
-        primaryStage.setTitle("Login Screen");
+        primaryStage.setTitle("Event Coordinator Screen");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
-
-    UserDAO userDAO = new UserDAO();
 
     public static void main(String[] args) {
         launch(args);
