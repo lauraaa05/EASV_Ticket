@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,30 +20,79 @@ import java.util.stream.Collectors;
 public class EventMainController {
 
     @FXML
-    private ListView eventsListView;
+    private ListView<String> eventsListView;
     @FXML
-    private Button logoutButtonEC;
+    private Button logoutButtonEC, getBtnEventCAdd, btnEventCSearch, btnNextPage,btnPrevPage;
     @FXML
-    private Button btnEventCAdd;
+    private TextField txtEventCSearch;
 
     private final EventManagement eventManagement = new EventManagement();
+    private ObservableList<String> allEvents = FXCollections.observableArrayList();
+    private ObservableList<String> filteredEvents = FXCollections.observableArrayList();
+
+    private static final int PAGE_SIZE = 10;
+    private int currentPage = 0;
 
 
     @FXML
     public void initialize() {
         loadEvents();
         logoutButtonEC.setOnAction(event -> logoutMainScreen());
+        btnEventCSearch.setOnAction(event -> searchEvents());
+        btnNextPage.setOnAction(event -> nextPage());
+        btnPrevPage.setOnAction(event -> previousPage());
     }
 
     public void loadEvents() {
         List<Event> events = eventManagement.getAllEvents();
+        allEvents.setAll(events.stream().map(Event::getEventName).collect(Collectors.toList()));
+        searchEvents();
+    }
 
-        List<String> eventNames = events.stream()
-                .map(Event::getEventName)
-                .collect(Collectors.toList());
+    private void searchEvents() {
+        String query = txtEventCSearch.getText().trim().toLowerCase();
+        if (query.isEmpty()) {
+            filteredEvents.setAll(allEvents);
+        } else {
+            filteredEvents.setAll(allEvents.stream()
+                    .filter(event -> event.toLowerCase().contains(query))
+                    .collect(Collectors.toList()));
+        }
+        currentPage = 0;
+        updatePagination();
+    }
 
-        ObservableList<String> observableList = FXCollections.observableArrayList(eventNames);
-        eventsListView.setItems(observableList);
+    private void updatePagination() {
+        int fromIndex = currentPage * PAGE_SIZE;
+        int toIndex = Math.min(fromIndex + PAGE_SIZE, filteredEvents.size());
+
+        if (fromIndex >= filteredEvents.size()) {
+            currentPage = Math.max(0, currentPage - 1);
+            fromIndex = currentPage * PAGE_SIZE;
+            toIndex = Math.min(fromIndex + PAGE_SIZE, filteredEvents.size());
+        }
+
+        eventsListView.setItems(FXCollections.observableArrayList(filteredEvents.subList(fromIndex, toIndex)));
+        btnPrevPage.setDisable(currentPage == 0);
+        btnNextPage.setDisable(toIndex >= filteredEvents.size());
+    }
+
+    private void nextPage() {
+        if ((currentPage + 1) * PAGE_SIZE < filteredEvents.size()) {
+            currentPage++;
+            updatePagination();
+        }
+    }
+
+    private void previousPage() {
+        if (currentPage > 0) {
+            currentPage--;
+            updatePagination();
+        }
+    }
+
+    private void logoutMainScreen() {
+        switchScene("LoginMain.fxml", "Login Screen");
     }
 
     private void switchScene(String fxmlFile, String title) {
@@ -57,9 +107,4 @@ public class EventMainController {
             throw new RuntimeException(e);
         }
     }
-
-    private void logoutMainScreen() {
-        switchScene("LoginMain.fxml", "Login Screen");
-    }
-
 }
