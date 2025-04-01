@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -16,15 +17,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 public class EventMainController {
 
+    public Button btnEventCEdit;
     @FXML
     private ListView<String> eventsListView;
     @FXML
     private Button logoutButtonEC, getBtnEventCAdd, btnEventCSearch, btnNextPage,btnPrevPage;
     @FXML
     private TextField txtEventCSearch;
+    @FXML
+    private ComboBox<String> sortComboBox;
 
     private final EventManagement eventManagement = new EventManagement();
     private ObservableList<String> allEvents = FXCollections.observableArrayList();
@@ -41,6 +46,7 @@ public class EventMainController {
         btnEventCSearch.setOnAction(event -> searchEvents());
         btnNextPage.setOnAction(event -> nextPage());
         btnPrevPage.setOnAction(event -> previousPage());
+        sortComboBox.getItems().addAll("Sort by Date", "Sort by Price", "Sort by Location");
     }
 
     public void loadEvents() {
@@ -89,6 +95,34 @@ public class EventMainController {
             currentPage--;
             updatePagination();
         }
+    }
+
+    private void sortEvents() {
+        String selectedOption = sortComboBox.getValue();
+        List<Event> events = eventManagement.getAllEvents(); // Fetch events from database
+
+        if (selectedOption == null) return; // If no option selected, do nothing
+
+        switch (selectedOption) {
+            case "Sort by Date":
+                events.sort(Comparator.comparing(Event::getDate)); // Assuming date is stored as String
+                break;
+            case "Sort by Price":
+                events.sort(Comparator.comparingInt(Event::getPrice));
+                break;
+            case "Sort by Location":
+                events.sort(Comparator.comparing(Event::getLocation));
+                break;
+            default:
+                return;
+        }
+
+        // Update the ListView
+        List<String> eventNames = events.stream()
+                .map(Event::getEventName)
+                .collect(Collectors.toList());
+        ObservableList<String> observableList = FXCollections.observableArrayList(eventNames);
+        eventsListView.setItems(observableList);
     }
 
     private void logoutMainScreen() {
