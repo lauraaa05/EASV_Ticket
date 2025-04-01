@@ -30,6 +30,12 @@ public class EventMainController {
     private TextField txtEventCSearch;
     @FXML
     private ComboBox<String> sortComboBox;
+    @FXML
+    private ComboBox<String> filterComboBox;
+    @FXML
+    private TextField filterValueField;
+    @FXML
+    private Button btnFilter;
 
     private final EventManagement eventManagement = new EventManagement();
     private ObservableList<String> allEvents = FXCollections.observableArrayList();
@@ -46,7 +52,19 @@ public class EventMainController {
         btnEventCSearch.setOnAction(event -> searchEvents());
         btnNextPage.setOnAction(event -> nextPage());
         btnPrevPage.setOnAction(event -> previousPage());
-        sortComboBox.getItems().addAll("Sort by Date", "Sort by Price", "Sort by Location");
+        sortComboBox.getItems().addAll(
+                "Sort by Date",
+                "Sort by Price",
+                "Sort by Location");
+        sortComboBox.setOnAction(event -> sortEvents());
+        filterComboBox.getItems().addAll(
+                "Free Events",
+                "Paid Events",
+                "Today’s Events",
+                "By Location",
+                "By Price"
+        );
+        btnFilter.setOnAction(event -> filterEvents());
     }
 
     public void loadEvents() {
@@ -123,6 +141,62 @@ public class EventMainController {
                 .collect(Collectors.toList());
         ObservableList<String> observableList = FXCollections.observableArrayList(eventNames);
         eventsListView.setItems(observableList);
+    }
+
+    private void filterEvents() {
+        String filterOption = filterComboBox.getValue();
+        String filterValue = filterValueField.getText().trim();
+
+        if (filterOption == null) return; // No filter selected
+
+        List<Event> events = eventManagement.getAllEvents(); // Load all events again
+
+        switch (filterOption) {
+            case "Free Events":
+                events = events.stream()
+                        .filter(event -> event.getPrice() == 0)
+                        .collect(Collectors.toList());
+                break;
+            case "Paid Events":
+                events = events.stream()
+                        .filter(event -> event.getPrice() > 0)
+                        .collect(Collectors.toList());
+                break;
+            case "Today’s Events":
+                events = events.stream()
+                        .filter(event -> event.getDate().equals(getTodayDate()))
+                        .collect(Collectors.toList());
+                break;
+            case "By Location":
+                if (!filterValue.isEmpty()) {
+                    events = events.stream()
+                            .filter(event -> event.getLocation().toLowerCase().contains(filterValue.toLowerCase()))
+                            .collect(Collectors.toList());
+                }
+                break;
+            case "By Price":
+                try {
+                    int priceFilter = Integer.parseInt(filterValue);
+                    events = events.stream()
+                            .filter(event -> event.getPrice() <= priceFilter)
+                            .collect(Collectors.toList());
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid price input");
+                    return;
+                }
+                break;
+        }
+
+        // Update ListView
+        List<String> eventNames = events.stream()
+                .map(Event::getEventName)
+                .collect(Collectors.toList());
+        eventsListView.setItems(FXCollections.observableArrayList(eventNames));
+    }
+
+    // Helper method to get today's date in the correct format
+    private String getTodayDate() {
+        return java.time.LocalDate.now().toString(); // Adjust format if needed
     }
 
     private void logoutMainScreen() {

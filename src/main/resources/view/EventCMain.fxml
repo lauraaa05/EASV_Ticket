@@ -23,6 +23,9 @@
             <Button fx:id="btnPrevPage" layoutX="66.0" layoutY="426.0" mnemonicParsing="false" text="Previous" />
             <Button fx:id="btnNextPage" layoutX="140.0" layoutY="426.0" mnemonicParsing="false" text="Next" />
             <ComboBox fx:id="sortComboBox" layoutX="275.0" layoutY="35.0" promptText="Sort by" />
+            <ComboBox fx:id="filterComboBox" layoutX="275.0" layoutY="100.0" promptText="Filter by" />
+            <TextField fx:id="filterValueField" layoutX="400.0" layoutY="100.0" promptText="Value (if needed)" />
+            <Button fx:id="btnFilter" layoutX="520.0" layoutY="100.0" text="Apply Filter" />
             <Label fx:id="txtEventUser" layoutX="66.0" layoutY="41.0" text="Hello, &lt;username&gt; !">
                <font>
                   <Font name="System Bold" size="14.0" />
