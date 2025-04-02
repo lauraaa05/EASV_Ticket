@@ -12,6 +12,7 @@ public class Event {
     private String Note;
     private int Price;
     private String Location_Guidance;
+    private int eventId;
 
     public Event(String Location, String Date, String StartTime, String EndTime, String Note, int Price, String Location_Guidance, String EventName) {
         this.Location = Location;
@@ -88,5 +89,6 @@ public class Event {
         Location_Guidance = location_Guidance;
     }
 
-
+    public int getEventId() { return eventId; }
+    public void setEventId(int eventId) { this.eventId = eventId; }
 }

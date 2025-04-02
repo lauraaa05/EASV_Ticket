@@ -3,6 +3,7 @@
 package controllers;
 
 import bll.LoginCheck;
+import bll.UserSession;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -59,8 +60,14 @@ public class LoginController {
         String result = loginCheck.checkLogin(username, password);
 
         switch (result) {
-            case "Admin" -> openAdminDashboard();
-            case "Event Coordinator" -> openEventCoordinatorDashboard();
+            case "Admin" -> {
+                UserSession.setRole("Admin");
+                openAdminDashboard();
+            }
+            case "Event Coordinator" -> {
+                UserSession.setRole("Event Coordinator");
+                openEventCoordinatorDashboard();
+            }
             case "User not found", "Wrong password", "Unknown" -> showAlert(result);
         }
     }
