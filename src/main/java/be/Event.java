@@ -14,7 +14,7 @@ public class Event {
     private String Location_Guidance;
     private int eventId;
 
-    public Event(String Location, String Date, String StartTime, String EndTime, String Note, int Price, String Location_Guidance, String EventName, int eventId) {
+    public Event(String Location, String Date, String StartTime, String EndTime, String Note, int Price, String Location_Guidance, String EventName) {
         this.Location = Location;
         this.Date = Date;
         this.StartTime = StartTime;
@@ -23,20 +23,7 @@ public class Event {
         this.Price = Price;
         this.Location_Guidance = Location_Guidance;
         this.EventName = EventName;
-        this.eventId = eventId;
     }
-
-    public Event(int eventId, String Location, String Date, String StartTime, String EndTime, String Note, int Price, String Location_Guidance, String EventName) {
-            this.eventId = eventId;
-            this.Location = Location;
-            this.Date = Date;
-            this.StartTime = StartTime;
-            this.EndTime = EndTime;
-            this.Note = Note;
-            this.Price = Price;
-            this.Location_Guidance = Location_Guidance;
-            this.EventName = EventName;
-        }
 
     public String getEventName() {
         return EventName;
@@ -104,6 +91,4 @@ public class Event {
 
     public int getEventId() { return eventId; }
     public void setEventId(int eventId) { this.eventId = eventId; }
-
-
 }
