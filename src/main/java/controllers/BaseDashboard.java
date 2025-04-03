@@ -56,7 +56,8 @@ public abstract class BaseDashboard {
         contentArea.setPadding(new Insets(20));
         contentArea.setStyle("-fx-background-color: white;");
 
-        eventsPane = new EventsView(UserSession.getRole());
+        EventMainController eventMainController = new EventMainController();
+        eventsPane = new EventsView(UserSession.getRole(), eventMainController);
         settingsPane = new SettingsView();
 
         contentArea.getChildren().addAll(eventsPane, settingsPane);

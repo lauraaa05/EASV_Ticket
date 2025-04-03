@@ -4,6 +4,7 @@ import be.Event;
 import be.User;
 import dal.EventDAO;
 import dal.UserDAO;
+import controllers.EventMainController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -29,9 +30,14 @@ public class EventsView extends StackPane {
     private EventDAO eventDAO = new EventDAO();
     private Event selectedEvent;
     private List<Event> masterEventList = new ArrayList<>();
+    private EventMainController eventMainController;
 
-    public EventsView(String role) {
+    public EventsView(String role, EventMainController eventMainController) {
+        VBox vbox = new VBox();
+        vbox.getChildren().clear();
         this.role = role;
+        this.eventMainController = eventMainController;
+
 
         VBox eventsPane = new VBox(10);
         eventsPane.setPadding(new Insets(15));
@@ -57,17 +63,47 @@ public class EventsView extends StackPane {
 
         topBar.getChildren().addAll(addEventBtn, deleteEventBtn, searchField, searchBtn);
 
+        searchBtn.setOnAction(e -> {
+            String searchQuery = searchField.getText();
+            eventMainController.searchEvents(searchQuery);  // Delegate to the controller
+            refreshEventList();  // Refresh the list to display the filtered events
+        });
+
+        // Handle Sorting
+        ComboBox<String> sortComboBox = new ComboBox<>();
+        sortComboBox.getItems().addAll("Sort by Date", "Sort by Price", "Sort by Location");
+        sortComboBox.setOnAction(e -> {
+            String sortCriteria = sortComboBox.getValue();
+            eventMainController.sortEvents(sortCriteria);  // Delegate sort action to the controller
+            refreshEventList();  // Refresh list after sorting
+        });
+
+        // Handle Filtering
+        ComboBox<String> filterComboBox = new ComboBox<>();
+        filterComboBox.getItems().addAll("Free Events", "Paid Events", "Today’s Events", "By Location", "By Price");
+        filterComboBox.setOnAction(e -> {
+            String filter = filterComboBox.getValue();
+            eventMainController.filterEvents(filter);  // Delegate filter action to the controller
+            refreshEventList();  // Refresh list after filtering
+        });
+
+        // Pagination controls
+        Button btnNextPage = new Button("Next");
+        Button btnPrevPage = new Button("Previous");
+        btnNextPage.setOnAction(e -> {
+            eventMainController.nextPage();
+            refreshEventList();
+        });
+        btnPrevPage.setOnAction(e -> {
+            eventMainController.previousPage();
+            refreshEventList();
+        });
+
         eventContainer = new TilePane();
         eventContainer.setHgap(10);
         eventContainer.setVgap(10);
         eventContainer.setPrefColumns(3);
         eventContainer.setPadding(new Insets(10));
-
-        //EventDAO eventDAO = new EventDAO();
-        //for (Event event : eventDAO.getAllEvents()) {
-        //    VBox eventCard = createEventCard(event);
-        //    eventContainer.getChildren().add(eventCard);
-        //}
 
         refreshEventList();
 
@@ -76,7 +112,7 @@ public class EventsView extends StackPane {
         scrollPane.setPrefHeight(600);
         scrollPane.setStyle("-fx-background: white;");
 
-        eventsPane.getChildren().addAll(topBar, scrollPane);
+        eventsPane.getChildren().addAll(topBar, sortComboBox, filterComboBox, searchField, searchBtn, scrollPane, btnNextPage, btnPrevPage);
 
         this.getChildren().add(eventsPane);
     }
@@ -122,14 +158,16 @@ public class EventsView extends StackPane {
 
     private void refreshEventList() {
         eventContainer.getChildren().clear();
-        // Load events from the database
-        masterEventList = eventDAO.getAllEvents();  // Get data from DB
-        System.out.println("Refreshing events: " + masterEventList.size()); // Debugging line
-        for (Event event : masterEventList) {
-            System.out.println("Loaded Event: " + event.getEventName()); // Debugging line
-            //VBox eventCard = createEventCard(event);
+        List<Event> filteredEvents = eventMainController.getFilteredEvents();  // Get the filtered list from the controller
+        for (Event event : filteredEvents) {
             eventContainer.getChildren().add(createEventCard(event));
         }
+        //masterEventList = eventDAO.getAllEvents();  // Get data from DB
+        //System.out.println("Refreshing events: " + masterEventList.size()); // Debugging line
+        //for (Event event : masterEventList) {
+        //    System.out.println("Loaded Event: " + event.getEventName()); // Debugging line
+        //VBox eventCard = createEventCard(event);
+        //    eventContainer.getChildren().add(createEventCard(event));
     }
 
     private void openAddEventWindow() {
