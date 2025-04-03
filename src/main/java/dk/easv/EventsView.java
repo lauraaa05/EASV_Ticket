@@ -19,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventsView extends StackPane {
@@ -27,6 +28,7 @@ public class EventsView extends StackPane {
     private TilePane eventContainer;
     private EventDAO eventDAO = new EventDAO();
     private Event selectedEvent;
+    private List<Event> masterEventList = new ArrayList<>();
 
     public EventsView(String role) {
         this.role = role;
@@ -61,11 +63,13 @@ public class EventsView extends StackPane {
         eventContainer.setPrefColumns(3);
         eventContainer.setPadding(new Insets(10));
 
-        EventDAO eventDAO = new EventDAO();
-        for (Event event : eventDAO.getAllEvents()) {
-            VBox eventCard = createEventCard(event);
-            eventContainer.getChildren().add(eventCard);
-        }
+        //EventDAO eventDAO = new EventDAO();
+        //for (Event event : eventDAO.getAllEvents()) {
+        //    VBox eventCard = createEventCard(event);
+        //    eventContainer.getChildren().add(eventCard);
+        //}
+
+        refreshEventList();
 
         ScrollPane scrollPane = new ScrollPane(eventContainer);
         scrollPane.setFitToWidth(true);
@@ -78,6 +82,8 @@ public class EventsView extends StackPane {
     }
 
     private VBox createEventCard(Event event) {
+        System.out.println("Creating tile for event: " + event.getEventName()); // Debugging line
+
         VBox card = new VBox();
         card.setPadding(new Insets(10));
         card.setSpacing(5);
@@ -109,17 +115,20 @@ public class EventsView extends StackPane {
         }
 
         card.getChildren().addAll(nameLabel, locationLabel, dateLabel);
-
         card.setOnMouseClicked(e -> setSelectedEvent(event, card));
 
-        return card;
+        return card; // ✅ Return the VBox without adding it to eventContainer
     }
 
     private void refreshEventList() {
         eventContainer.getChildren().clear();
-        for(Event event : eventDAO.getAllEvents()) {
-            VBox eventCard = createEventCard(event);
-            eventContainer.getChildren().add(eventCard);
+        // Load events from the database
+        masterEventList = eventDAO.getAllEvents();  // Get data from DB
+        System.out.println("Refreshing events: " + masterEventList.size()); // Debugging line
+        for (Event event : masterEventList) {
+            System.out.println("Loaded Event: " + event.getEventName()); // Debugging line
+            //VBox eventCard = createEventCard(event);
+            eventContainer.getChildren().add(createEventCard(event));
         }
     }
 
@@ -178,7 +187,7 @@ public class EventsView extends StackPane {
                 return;
             }
             Event newEvent = new Event(locationField.getText(), datePicker.getValue().toString(), startTimeField.getText(),
-                    endTimeField.getText(), noteField.getText(), price, locationGuidanceField.getText(), nameField.getText());
+                    endTimeField.getText(), noteField.getText(), price, locationGuidanceField.getText(), nameField.getText(), 0);
 
             eventDAO.createEvent(newEvent);
             refreshEventList();

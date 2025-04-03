@@ -102,7 +102,6 @@ public class EventDAO {
             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Event event = new Event(
-                        rs.getInt("EventId"),
                 rs.getString("Location"),
                 rs.getString("Date"),
                 rs.getString("StartTime"),
@@ -110,7 +109,8 @@ public class EventDAO {
                 rs.getString("Note"),
                 rs.getInt("Price"),
                 rs.getString("Location_Guidance"),
-                rs.getString("EventName")
+                rs.getString("EventName"),
+                        rs.getInt("EventId")
                 );
                 eventList.add(event);
             }
