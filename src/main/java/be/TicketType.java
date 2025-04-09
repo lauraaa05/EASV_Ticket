@@ -1,17 +1,27 @@
 package be;
 
 public class TicketType {
-    private String name;
+    private int ticketTypeId;
+    private String ticketTypeName;
 
-    public TicketType(String ticketType) {
-        this.name = ticketType;
+    public TicketType(int ticketTypeId, String ticketTypeName) {
+        this.ticketTypeId = ticketTypeId;
+        this.ticketTypeName = ticketTypeName;
     }
 
-    public String getName() {
-        return name;
+    public int getTicketTypeId() {
+        return ticketTypeId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getTicketTypeName() {
+        return ticketTypeName;
+    }
+
+    public void setTicketTypeId(int ticketTypeId) {
+        this.ticketTypeId = ticketTypeId;
+    }
+
+    public void setTicketTypeNameName(String ticketTypeName) {
+        this.ticketTypeName = ticketTypeName;
     }
 }

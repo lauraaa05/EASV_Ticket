@@ -4,7 +4,6 @@ import be.Barcode;
 import be.SpecialTicket;
 import com.google.zxing.WriterException;
 import dal.BarcodeDAO;
-import dal.EventDAO;
 import dal.SpecialTicketDAO;
 
 import java.io.IOException;
